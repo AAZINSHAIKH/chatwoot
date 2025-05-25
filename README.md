@@ -152,6 +152,12 @@ user = User.new(email: 'admin@example.com', password: 'Password1!', name: 'Admin
 user.skip_confirmation!
 user.save!
 ```
+> **Note:** The password must meet the following complexity requirements:
+> - At least **1 uppercase letter** (A–Z)  
+> - At least **1 number** (0–9)  
+> - At least **1 special character** (`!@#$%^&*()_+-=[]{}|"/\.,`<>:;?~`)
+
+That’s why `Password1!` was chosen as it satisfies all criteria.
 
 ---
 
@@ -183,16 +189,10 @@ user.save!
 | Symptom | Quick fix |
 |---------|-----------|
 | `'ruby\r': No such file or directory` | Run the **dos2unix** and **chmod** commands in §4, then restart Foreman. |
-| `fe_sendauth: no password supplied` | Ensure PostgreSQL role matching your Linux user exists and has superuser privileges. |
+| `fe_sendauth: no password supplied` | Ensure PostgreSQL role matching your Linux user exists and has superuser privileges :<br><br>`sudo -u postgres psql`<br>`ALTER USER <your-linux-user> WITH PASSWORD 'yourpassword';`<br>`\q`<br>Then add to `.env`:<br>`POSTGRES_PASSWORD=yourpassword`<br>Re-run:<br>`bundle exec rails db:setup`|
 | Vite crashes with “port 3036 already in use” | `lsof -ti :3036 | xargs kill -9` then restart Foreman. |
 | Redis errors (`ECONNREFUSED`) | `sudo service redis-server restart` then verify with `redis-cli ping`. |
 | Yarn vs pnpm conflict | Remove Yarn (`sudo apt remove yarn`) and keep pnpm only. |
 | Windows file paths mixed with Linux | Always run the app from the Linux side (`/home/...`), not from `/mnt/c/...`. |
 
----
-
-## 11. Optional helpers
-
-* **Capture a full terminal log**: `script session.log`, run commands, type `exit`, then convert `session.log` to PDF with `a2ps` or `enscript | ps2pdf`.  
-* **Export just your command history**: `history > ~/terminal_history.txt`.
 
