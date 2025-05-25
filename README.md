@@ -158,24 +158,23 @@ user.save!
 ## 9. Smoke‑test core functionality
 
 1. **Log in** with the admin credentials.  
-2. Create a **Website Inbox** and copy its *website token*.  
-3. Paste this snippet into a plain HTML page and open it in your browser:
+2. Go to **Settings → Inboxes** and create a **Website Inbox**.
+3. After the inbox is created, open the **Configure** tab.
+4. **Copy the `<script>` snippet provided there** — it contains your unique `websiteToken`.
+5. Paste that snippet into a blank `.html` file on your computer (e.g. `test-chatwoot.html`), like this:
 
-   ```html
-   <script>
-     (function(d,t){
-       var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-       g.src="http://localhost:3000/packs/js/sdk.js";g.defer=true;g.async=true;
-       s.parentNode.insertBefore(g,s);
-       g.onload=function(){window.chatwootSDK.run({
-         websiteToken:'YOUR_WEBSITE_TOKEN',
-         baseUrl:'http://localhost:3000'
-       });};
-     })(document,'script');
-   </script>
-   ```
+    ```html
+    <!DOCTYPE html>
+    <html>
+      <head></head>
+      <body>
+        <!-- Paste the script here -->
+      </body>
+    </html>
+    ```
 
-4. Refresh the page – the chat bubble should appear.
+6. Open the file in your browser.  
+   If the widget loads in the corner of the page, your setup works
 
 ---
 
