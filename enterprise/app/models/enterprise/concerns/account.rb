@@ -6,9 +6,9 @@ module Enterprise::Concerns::Account
     has_many :applied_slas, dependent: :destroy_async
     has_many :custom_roles, dependent: :destroy_async
 
-    has_many :captain_assistants, dependent: :destroy_async, class_name: 'Captain::Assistant'
-    has_many :captain_assistant_responses, dependent: :destroy_async, class_name: 'Captain::AssistantResponse'
-    has_many :captain_documents, dependent: :destroy_async, class_name: 'Captain::Document'
+    has_many :ai_agent_assistants, dependent: :destroy_async, class_name: 'AiAgent::Assistant'
+    has_many :ai_agent_assistant_responses, dependent: :destroy_async, class_name: 'AiAgent::AssistantResponse'
+    has_many :ai_agent_documents, dependent: :destroy_async, class_name: 'AiAgent::Document'
 
     has_many :copilot_threads, dependent: :destroy_async
   end
