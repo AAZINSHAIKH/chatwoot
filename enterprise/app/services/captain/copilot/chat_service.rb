@@ -23,9 +23,9 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @messages << { role: 'user', content: input } if input.present?
     response = request_chat_completion
 
-    Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
+    Rails.logger.debug { "#{self.class.name} Topic: #{@assistant.id}, Received response #{response}" }
     Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
+      "#{self.class.name} Topic: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
     )
     @account.increment_response_usage
 
@@ -48,7 +48,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
   def setup_message_history(config)
     Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Previous History: #{config[:previous_history]&.length || 0}, Language: #{config[:language]}"
+      "#{self.class.name} Topic: #{@assistant.id}, Previous History: #{config[:previous_history]&.length || 0}, Language: #{config[:language]}"
     )
 
     @copilot_thread = @account.copilot_threads.find_by(id: config[:thread_id]) if config[:thread_id].present?
@@ -89,7 +89,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     conversation = @account.conversations.find_by(display_id: conversation_id)
     return [] unless conversation
 
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, Setting viewing history for conversation_id=#{conversation_id}")
+    Rails.logger.info("#{self.class.name} Topic: #{@assistant.id}, Setting viewing history for conversation_id=#{conversation_id}")
     contact_id = conversation.contact_id
     [{
       role: 'system',

@@ -16,7 +16,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
 
     it 'creates a new document when one does not exist' do
       expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
+        described_class.perform_now(topic_id: assistant.id, payload: payload)
       end.to change(assistant.documents, :count).by(1)
 
       document = assistant.documents.last
@@ -38,7 +38,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
                                  status: :in_progress)
 
       expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
+        described_class.perform_now(topic_id: assistant.id, payload: payload)
       end.not_to change(assistant.documents, :count)
 
       existing_document.reload
@@ -51,10 +51,10 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
 
     context 'when an error occurs' do
       it 'raises an error with a descriptive message' do
-        allow(Captain::Assistant).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(Captain::Topic).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
 
         expect do
-          described_class.perform_now(assistant_id: -1, payload: payload)
+          described_class.perform_now(topic_id: -1, payload: payload)
         end.to raise_error(/Failed to parse FireCrawl data/)
       end
     end

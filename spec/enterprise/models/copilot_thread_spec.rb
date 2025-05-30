@@ -4,7 +4,7 @@ RSpec.describe CopilotThread, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant') }
+    it { is_expected.to belong_to(:assistant).class_name('Captain::Topic') }
     it { is_expected.to have_many(:copilot_messages).dependent(:destroy_async) }
   end
 
@@ -38,8 +38,8 @@ RSpec.describe CopilotThread, type: :model do
     context 'when there are messages in the thread' do
       before do
         create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'user', message: { 'content' => 'User message' })
-        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'assistant_thinking', message: { 'content' => 'Thinking...' })
-        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'assistant', message: { 'content' => 'Assistant message' })
+        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'topic_thinking', message: { 'content' => 'Thinking...' })
+        create(:captain_copilot_message, copilot_thread: copilot_thread, message_type: 'assistant', message: { 'content' => 'Topic message' })
       end
 
       it 'returns only user and assistant messages in chronological order' do
@@ -49,7 +49,7 @@ RSpec.describe CopilotThread, type: :model do
         expect(history[0][:role]).to eq('user')
         expect(history[0][:content]).to eq('User message')
         expect(history[1][:role]).to eq('assistant')
-        expect(history[1][:content]).to eq('Assistant message')
+        expect(history[1][:content]).to eq('Topic message')
       end
     end
 

@@ -13,7 +13,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Inboxes', type: :request do
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  describe 'GET /api/v1/accounts/:account_id/captain/assistants/:assistant_id/inboxes' do
+  describe 'GET /api/v1/accounts/:account_id/captain/assistants/:topic_id/inboxes' do
     context 'when user is authorized' do
       it 'returns a list of inboxes for the assistant' do
         get "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/inboxes",
@@ -42,7 +42,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Inboxes', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/:account/captain/assistants/:assistant_id/inboxes' do
+  describe 'POST /api/v1/accounts/:account/captain/assistants/:topic_id/inboxes' do
     let(:valid_params) do
       {
         inbox: {
@@ -95,7 +95,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Inboxes', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/accounts/captain/assistants/:assistant_id/inboxes/:inbox_id' do
+  describe 'DELETE /api/v1/accounts/captain/assistants/:topic_id/inboxes/:inbox_id' do
     context 'when user is authorized' do
       it 'deletes the captain inbox' do
         expect do

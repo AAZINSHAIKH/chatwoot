@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_30_203717) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -256,7 +256,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.string "question", null: false
     t.text "answer", null: false
     t.vector "embedding", limit: 1536
-    t.bigint "assistant_id", null: false
+    t.bigint "topic_id", null: false
     t.bigint "documentable_id"
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
@@ -264,10 +264,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.integer "status", default: 1, null: false
     t.string "documentable_type"
     t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
-    t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
     t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
     t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
     t.index ["status"], name: "index_captain_assistant_responses_on_status"
+    t.index ["topic_id"], name: "index_captain_assistant_responses_on_topic_id"
   end
 
   create_table "captain_assistants", force: :cascade do |t|
@@ -284,24 +284,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.string "name"
     t.string "external_link", null: false
     t.text "content"
-    t.bigint "assistant_id", null: false
+    t.bigint "topic_id", null: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
-    t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
-    t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
+    t.index ["topic_id", "external_link"], name: "index_captain_documents_on_topic_id_and_external_link", unique: true
+    t.index ["topic_id"], name: "index_captain_documents_on_topic_id"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
-    t.bigint "captain_assistant_id", null: false
+    t.bigint "captain_topic_id", null: false
     t.bigint "inbox_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
-    t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
+    t.index ["captain_topic_id", "inbox_id"], name: "index_captain_inboxes_on_captain_topic_id_and_inbox_id", unique: true
+    t.index ["captain_topic_id"], name: "index_captain_inboxes_on_captain_topic_id"
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
@@ -449,7 +449,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "website_token"
-    t.string "widget_color", default: "#008080"
+    t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 7, null: false
@@ -592,9 +592,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "assistant_id"
+    t.integer "topic_id"
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
-    t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
+    t.index ["topic_id"], name: "index_copilot_threads_on_topic_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
@@ -759,7 +759,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.string "color", default: "#008080", null: false
+    t.string "color", default: "#1f93ff", null: false
     t.boolean "show_on_sidebar"
     t.bigint "account_id"
     t.datetime "created_at", null: false
@@ -907,7 +907,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "header_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
     t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"

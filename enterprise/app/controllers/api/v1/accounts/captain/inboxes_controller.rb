@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Captain::Assistant) }
+  before_action -> { check_authorization(Captain::Topic) }
 
   before_action :set_assistant
   def index
@@ -8,7 +8,7 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
   end
 
   def create
-    inbox = Current.account.inboxes.find(assistant_params[:inbox_id])
+    inbox = Current.account.inboxes.find(topic_params[:inbox_id])
     @captain_inbox = @assistant.captain_inboxes.build(inbox: inbox)
     @captain_inbox.save!
   end
@@ -22,7 +22,7 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
   private
 
   def set_assistant
-    @assistant = account_assistants.find(permitted_params[:assistant_id])
+    @assistant = account_assistants.find(permitted_params[:topic_id])
   end
 
   def account_assistants
@@ -30,10 +30,10 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
   end
 
   def permitted_params
-    params.permit(:assistant_id, :id, :account_id, :inbox_id)
+    params.permit(:topic_id, :id, :account_id, :inbox_id)
   end
 
-  def assistant_params
+  def topic_params
     params.require(:inbox).permit(:inbox_id)
   end
 end

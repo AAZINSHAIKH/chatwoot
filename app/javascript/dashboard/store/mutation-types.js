@@ -64,7 +64,7 @@ export default {
   SET_CHAT_LIST_FILTERS: 'SET_CHAT_LIST_FILTERS',
   UPDATE_CHAT_LIST_FILTERS: 'UPDATE_CHAT_LIST_FILTERS',
 
-  // Conversation inbox connected copilot assistant
+  // Conversation inbox connected copilot topic
   SET_INBOX_CAPTAIN_ASSISTANT: 'SET_INBOX_CAPTAIN_ASSISTANT',
 
   // Inboxes

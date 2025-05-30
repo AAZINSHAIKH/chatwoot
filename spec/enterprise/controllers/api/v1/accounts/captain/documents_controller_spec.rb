@@ -53,7 +53,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         end
       end
 
-      context 'when filtering by assistant_id' do
+      context 'when filtering by topic_id' do
         before do
           create_list(:captain_document, 3, assistant: assistant, account: account)
           create_list(:captain_document, 2, assistant: assistant2, account: account)
@@ -61,7 +61,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
         it 'returns only documents for the specified assistant' do
           get "/api/v1/accounts/#{account.id}/captain/documents",
-              params: { assistant_id: assistant.id },
+              params: { topic_id: assistant.id },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
           expect(json_response[:payload].length).to eq(3)
@@ -71,7 +71,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         it 'returns empty array when assistant has no documents' do
           new_assistant = create(:captain_assistant, account: account)
           get "/api/v1/accounts/#{account.id}/captain/documents",
-              params: { assistant_id: new_assistant.id },
+              params: { topic_id: new_assistant.id },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
           expect(json_response[:payload]).to be_empty
@@ -104,7 +104,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
         it 'returns paginated results for specific assistant' do
           get "/api/v1/accounts/#{account.id}/captain/documents",
-              params: { assistant_id: assistant.id, page: 2 },
+              params: { topic_id: assistant.id, page: 2 },
               headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:ok)
           expect(json_response[:payload].length).to eq(5)
@@ -150,7 +150,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         document: {
           name: 'Test Document',
           external_link: 'https://example.com/doc',
-          assistant_id: assistant.id
+          topic_id: assistant.id
         }
       }
     end

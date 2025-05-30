@@ -13,17 +13,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     JSON.parse(response.body, symbolize_names: true)
   end
 
-  describe 'GET /api/v1/accounts/:account_id/captain/assistant_responses' do
+  describe 'GET /api/v1/accounts/:account_id/captain/topic_responses' do
     context 'when no filters are applied' do
       before do
-        create_list(:captain_assistant_response, 30,
+        create_list(:captain_topic_response, 30,
                     account: account,
                     assistant: assistant,
                     documentable: document)
       end
 
       it 'returns first page of responses with default pagination' do
-        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+        get "/api/v1/accounts/#{account.id}/captain/topic_responses",
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -32,7 +32,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
       end
 
       it 'returns second page of responses' do
-        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+        get "/api/v1/accounts/#{account.id}/captain/topic_responses",
             params: { page: 2 },
             headers: agent.create_new_auth_token,
             as: :json
@@ -43,21 +43,21 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
       end
     end
 
-    context 'when filtering by assistant_id' do
+    context 'when filtering by topic_id' do
       before do
-        create_list(:captain_assistant_response, 3,
+        create_list(:captain_topic_response, 3,
                     account: account,
                     assistant: assistant,
                     documentable: document)
-        create_list(:captain_assistant_response, 2,
+        create_list(:captain_topic_response, 2,
                     account: account,
                     assistant: another_assistant,
                     documentable: document)
       end
 
       it 'returns only responses for the specified assistant' do
-        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
-            params: { assistant_id: assistant.id },
+        get "/api/v1/accounts/#{account.id}/captain/topic_responses",
+            params: { topic_id: assistant.id },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -69,18 +69,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
     context 'when filtering by document_id' do
       before do
-        create_list(:captain_assistant_response, 3,
+        create_list(:captain_topic_response, 3,
                     account: account,
                     assistant: assistant,
                     documentable: document)
-        create_list(:captain_assistant_response, 2,
+        create_list(:captain_topic_response, 2,
                     account: account,
                     assistant: assistant,
                     documentable: another_document)
       end
 
       it 'returns only responses for the specified document' do
-        get "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+        get "/api/v1/accounts/#{account.id}/captain/topic_responses",
             params: { document_id: document.id },
             headers: agent.create_new_auth_token,
             as: :json
@@ -92,11 +92,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     end
   end
 
-  describe 'GET /api/v1/accounts/:account_id/captain/assistant_responses/:id' do
-    let!(:response_record) { create(:captain_assistant_response, assistant: assistant, account: account) }
+  describe 'GET /api/v1/accounts/:account_id/captain/topic_responses/:id' do
+    let!(:response_record) { create(:captain_topic_response, assistant: assistant, account: account) }
 
     it 'returns the requested response if the user is agent or admin' do
-      get "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{response_record.id}",
+      get "/api/v1/accounts/#{account.id}/captain/topic_responses/#{response_record.id}",
           headers: agent.create_new_auth_token,
           as: :json
 
@@ -107,20 +107,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     end
   end
 
-  describe 'POST /api/v1/accounts/:account_id/captain/assistant_responses' do
+  describe 'POST /api/v1/accounts/:account_id/captain/topic_responses' do
     let(:valid_params) do
       {
-        assistant_response: {
+        topic_response: {
           question: 'Test question?',
           answer: 'Test answer',
-          assistant_id: assistant.id
+          topic_id: assistant.id
         }
       }
     end
 
     it 'creates a new response if the user is an admin' do
       expect do
-        post "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+        post "/api/v1/accounts/#{account.id}/captain/topic_responses",
              params: valid_params,
              headers: admin.create_new_auth_token,
              as: :json
@@ -135,7 +135,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     context 'with invalid params' do
       let(:invalid_params) do
         {
-          assistant_response: {
+          topic_response: {
             question: 'Test',
             answer: 'Test'
           }
@@ -143,7 +143,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
       end
 
       it 'returns unprocessable entity status' do
-        post "/api/v1/accounts/#{account.id}/captain/assistant_responses",
+        post "/api/v1/accounts/#{account.id}/captain/topic_responses",
              params: invalid_params,
              headers: admin.create_new_auth_token,
              as: :json
@@ -153,11 +153,11 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     end
   end
 
-  describe 'PATCH /api/v1/accounts/:account_id/captain/assistant_responses/:id' do
-    let!(:response_record) { create(:captain_assistant_response, assistant: assistant) }
+  describe 'PATCH /api/v1/accounts/:account_id/captain/topic_responses/:id' do
+    let!(:response_record) { create(:captain_topic_response, assistant: assistant) }
     let(:update_params) do
       {
-        assistant_response: {
+        topic_response: {
           question: 'Updated question?',
           answer: 'Updated answer'
         }
@@ -165,7 +165,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     end
 
     it 'updates the response if the user is an admin' do
-      patch "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{response_record.id}",
+      patch "/api/v1/accounts/#{account.id}/captain/topic_responses/#{response_record.id}",
             params: update_params,
             headers: admin.create_new_auth_token,
             as: :json
@@ -179,7 +179,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     context 'with invalid params' do
       let(:invalid_params) do
         {
-          assistant_response: {
+          topic_response: {
             question: '',
             answer: ''
           }
@@ -187,7 +187,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
       end
 
       it 'returns unprocessable entity status' do
-        patch "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{response_record.id}",
+        patch "/api/v1/accounts/#{account.id}/captain/topic_responses/#{response_record.id}",
               params: invalid_params,
               headers: admin.create_new_auth_token,
               as: :json
@@ -197,12 +197,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
     end
   end
 
-  describe 'DELETE /api/v1/accounts/:account_id/captain/assistant_responses/:id' do
-    let!(:response_record) { create(:captain_assistant_response, assistant: assistant) }
+  describe 'DELETE /api/v1/accounts/:account_id/captain/topic_responses/:id' do
+    let!(:response_record) { create(:captain_topic_response, assistant: assistant) }
 
     it 'deletes the response' do
       expect do
-        delete "/api/v1/accounts/#{account.id}/captain/assistant_responses/#{response_record.id}",
+        delete "/api/v1/accounts/#{account.id}/captain/topic_responses/#{response_record.id}",
                headers: admin.create_new_auth_token,
                as: :json
       end.to change(Captain::AssistantResponse, :count).by(-1)
@@ -212,7 +212,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::AssistantResponses', type: :request 
 
     context 'with invalid id' do
       it 'returns not found' do
-        delete "/api/v1/accounts/#{account.id}/captain/assistant_responses/0",
+        delete "/api/v1/accounts/#{account.id}/captain/topic_responses/0",
                headers: admin.create_new_auth_token,
                as: :json
 

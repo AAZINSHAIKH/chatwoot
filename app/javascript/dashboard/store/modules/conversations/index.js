@@ -21,7 +21,7 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
-  copilotAssistant: {},
+  copilotTopic: {},
 };
 
 // mutations
@@ -310,7 +310,7 @@ export const mutations = {
     _state.conversationFilters = { ..._state.conversationFilters, ...data };
   },
   [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
-    _state.copilotAssistant = data.assistant;
+    _state.copilotTopic = data.topic;
   },
 };
 

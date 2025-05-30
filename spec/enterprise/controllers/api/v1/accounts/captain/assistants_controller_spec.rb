@@ -61,8 +61,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     let(:valid_attributes) do
       {
         assistant: {
-          name: 'New Assistant',
-          description: 'Assistant Description'
+          name: 'New Topic',
+          description: 'Topic Description'
         }
       }
     end
@@ -93,9 +93,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
                params: valid_attributes,
                headers: admin.create_new_auth_token,
                as: :json
-        end.to change(Captain::Assistant, :count).by(1)
+        end.to change(Captain::Topic, :count).by(1)
 
-        expect(json_response[:name]).to eq('New Assistant')
+        expect(json_response[:name]).to eq('New Topic')
         expect(response).to have_http_status(:success)
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
     let(:update_attributes) do
       {
         assistant: {
-          name: 'Updated Assistant'
+          name: 'Updated Topic'
         }
       }
     end
@@ -138,7 +138,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:name]).to eq('Updated Assistant')
+        expect(json_response[:name]).to eq('Updated Topic')
       end
     end
   end
@@ -169,7 +169,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           delete "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}",
                  headers: admin.create_new_auth_token,
                  as: :json
-        end.to change(Captain::Assistant, :count).by(-1)
+        end.to change(Captain::Topic, :count).by(-1)
 
         expect(response).to have_http_status(:no_content)
       end
@@ -202,7 +202,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       it 'generates a response' do
         chat_service = instance_double(Captain::Llm::AssistantChatService)
         allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
+        allow(chat_service).to receive(:generate_response).and_return({ content: 'Topic response' })
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
              params: valid_params,
@@ -214,7 +214,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           valid_params[:message_content],
           valid_params[:message_history]
         )
-        expect(json_response[:content]).to eq('Assistant response')
+        expect(json_response[:content]).to eq('Topic response')
       end
     end
 
@@ -223,7 +223,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
         params_without_history = { message_content: 'Hello assistant' }
         chat_service = instance_double(Captain::Llm::AssistantChatService)
         allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
-        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
+        allow(chat_service).to receive(:generate_response).and_return({ content: 'Topic response' })
 
         post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
              params: params_without_history,

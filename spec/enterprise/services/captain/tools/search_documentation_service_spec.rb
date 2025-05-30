@@ -39,7 +39,7 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
   describe '#execute' do
     let!(:response) do
       create(
-        :captain_assistant_response,
+        :captain_topic_response,
         assistant: assistant,
         question: question,
         answer: answer,

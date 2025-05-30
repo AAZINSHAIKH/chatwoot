@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: captain_assistant_responses
+# Table name: captain_topic_responses
 #
 #  id                :bigint           not null, primary key
 #  answer            :text             not null
@@ -11,21 +11,21 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
-#  assistant_id      :bigint           not null
 #  documentable_id   :bigint
+#  topic_id          :bigint           not null
 #
 # Indexes
 #
-#  idx_cap_asst_resp_on_documentable                  (documentable_id,documentable_type)
-#  index_captain_assistant_responses_on_account_id    (account_id)
-#  index_captain_assistant_responses_on_assistant_id  (assistant_id)
-#  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
+#  idx_cap_asst_resp_on_documentable                (documentable_id,documentable_type)
+#  index_captain_topic_responses_on_account_id  (account_id)
+#  index_captain_topic_responses_on_status      (status)
+#  index_captain_topic_responses_on_topic_id    (topic_id)
+#  vector_idx_knowledge_entries_embedding           (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
-  self.table_name = 'captain_assistant_responses'
+  self.table_name = 'captain_topic_responses'
 
-  belongs_to :assistant, class_name: 'Captain::Assistant'
+  belongs_to :topic, class_name: 'AiAgent::Assistant'
   belongs_to :account
   belongs_to :documentable, polymorphic: true, optional: true
   has_neighbors :embedding, normalize: true
@@ -39,7 +39,7 @@ class Captain::AssistantResponse < ApplicationRecord
 
   scope :ordered, -> { order(created_at: :desc) }
   scope :by_account, ->(account_id) { where(account_id: account_id) }
-  scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+  scope :by_assistant, ->(topic_id) { where(topic_id: topic_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
 
   enum status: { pending: 0, approved: 1 }

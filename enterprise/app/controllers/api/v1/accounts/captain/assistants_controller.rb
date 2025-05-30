@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Captain::Assistant) }
+  before_action -> { check_authorization(Captain::Topic) }
 
   before_action :set_assistant, only: [:show, :update, :destroy, :playground]
 
@@ -11,11 +11,11 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   def show; end
 
   def create
-    @assistant = account_assistants.create!(assistant_params)
+    @assistant = account_assistants.create!(topic_params)
   end
 
   def update
-    @assistant.update!(assistant_params)
+    @assistant.update!(topic_params)
   end
 
   def destroy
@@ -39,10 +39,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def account_assistants
-    @account_assistants ||= Captain::Assistant.for_account(Current.account.id)
+    @account_assistants ||= Captain::Topic.for_account(Current.account.id)
   end
 
-  def assistant_params
+  def topic_params
     params.require(:assistant).permit(:name, :description,
                                       config: [
                                         :product_name, :feature_faq, :feature_memory,

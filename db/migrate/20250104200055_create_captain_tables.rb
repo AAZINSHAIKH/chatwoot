@@ -5,12 +5,12 @@ class CreateCaptainTables < ActiveRecord::Migration[7.0]
     setup_vector_extension
     create_assistants
     create_documents
-    create_assistant_responses
+    create_topic_responses
     create_old_tables
   end
 
   def down
-    drop_table :captain_assistant_responses if table_exists?(:captain_assistant_responses)
+    drop_table :captain_topic_responses if table_exists?(:captain_topic_responses)
     drop_table :captain_documents if table_exists?(:captain_documents)
     drop_table :captain_assistants if table_exists?(:captain_assistants)
     drop_table :article_embeddings if table_exists?(:article_embeddings)
@@ -49,33 +49,33 @@ class CreateCaptainTables < ActiveRecord::Migration[7.0]
       t.string :name, null: false
       t.string :external_link, null: false
       t.text :content
-      t.bigint :assistant_id, null: false
+      t.bigint :topic_id, null: false
       t.bigint :account_id, null: false
 
       t.timestamps
     end
 
     add_index :captain_documents, :account_id
-    add_index :captain_documents, :assistant_id
-    add_index :captain_documents, [:assistant_id, :external_link], unique: true
+    add_index :captain_documents, :topic_id
+    add_index :captain_documents, [:topic_id, :external_link], unique: true
   end
 
-  def create_assistant_responses
-    create_table :captain_assistant_responses do |t|
+  def create_topic_responses
+    create_table :captain_topic_responses do |t|
       t.string :question, null: false
       t.text :answer, null: false
       t.vector :embedding, limit: 1536
-      t.bigint :assistant_id, null: false
+      t.bigint :topic_id, null: false
       t.bigint :document_id
       t.bigint :account_id, null: false
 
       t.timestamps
     end
 
-    add_index :captain_assistant_responses, :account_id
-    add_index :captain_assistant_responses, :assistant_id
-    add_index :captain_assistant_responses, :document_id
-    add_index :captain_assistant_responses, :embedding, using: :ivfflat, name: 'vector_idx_knowledge_entries_embedding', opclass: :vector_l2_ops
+    add_index :captain_topic_responses, :account_id
+    add_index :captain_topic_responses, :topic_id
+    add_index :captain_topic_responses, :document_id
+    add_index :captain_topic_responses, :embedding, using: :ivfflat, name: 'vector_idx_knowledge_entries_embedding', opclass: :vector_l2_ops
   end
 
   def create_old_tables

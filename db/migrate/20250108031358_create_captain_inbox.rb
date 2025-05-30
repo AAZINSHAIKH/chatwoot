@@ -6,6 +6,6 @@ class CreateCaptainInbox < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :captain_inboxes, [:captain_assistant_id, :inbox_id], unique: true
+    add_index :captain_inboxes, [:captain_topic_id, :inbox_id], unique: true
   end
 end

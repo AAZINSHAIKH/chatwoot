@@ -29,11 +29,11 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def assistant
-    Current.account.captain_assistants.find(copilot_thread_params[:assistant_id])
+    Current.account.captain_assistants.find(copilot_thread_params[:topic_id])
   end
 
   def copilot_thread_params
-    params.permit(:message, :assistant_id)
+    params.permit(:message, :topic_id)
   end
 
   def permitted_params

@@ -354,7 +354,7 @@
     },
     "PLAYGROUND": {
       "USER": "Você",
-      "ASSISTANT": "Assistente",
+      "TOPIC": "Assistente",
       "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
       "HEADER": "Playground",
       "DESCRIPTION": "Use este playground para enviar mensagens para seu assistente e verificar se ele responde com precisão, rápido e no tom que você espera.",
@@ -458,8 +458,8 @@
         "TITLE": "Não há assistentes disponíveis",
         "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain Topic",
+          "NOTE": "Captain Topic engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -482,7 +482,7 @@
           "PLACEHOLDER": "Insira a URL do documento",
           "ERROR": "Por favor forneça uma URL válida para o documento"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "Assistente",
           "PLACEHOLDER": "Selecione o assistente",
           "ERROR": "O campo Assistente é obrigatório"
@@ -504,7 +504,7 @@
         "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "A document in Captain serves as a knowledge resource for the topic. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -536,7 +536,7 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir a FAQ, por favor tente novamente."
       },
       "FILTER": {
-        "ASSISTANT": "Assistente: {selected}",
+        "TOPIC": "Assistente: {selected}",
         "STATUS": "Status: {selected}",
         "ALL_ASSISTANTS": "Todos"
       },
@@ -563,7 +563,7 @@
           "PLACEHOLDER": "Digite a resposta aqui",
           "ERROR": "Por favor, forneça uma resposta válida."
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "Assistente",
           "PLACEHOLDER": "Selecione um assistente",
           "ERROR": "Por favor, selecione um assistente."

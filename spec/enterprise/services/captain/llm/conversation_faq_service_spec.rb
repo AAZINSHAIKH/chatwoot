@@ -67,7 +67,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when finding duplicates' do
       let(:existing_response) do
-        create(:captain_assistant_response, assistant: captain_assistant, question: 'Similar question', answer: 'Similar answer')
+        create(:captain_topic_response, assistant: captain_assistant, question: 'Similar question', answer: 'Similar answer')
       end
       let(:similar_neighbor) do
         # Using OpenStruct here to mock as the Captain:AssistantResponse does not implement

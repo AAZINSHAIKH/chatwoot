@@ -6,11 +6,11 @@ module Enterprise::Api::V1::Accounts::ConversationsController
 
   def copilot
     # First try to get the user's preferred assistant from UI settings or from the request
-    assistant_id = copilot_params[:assistant_id] || current_user.ui_settings&.dig('preferred_captain_assistant_id')
+    topic_id = copilot_params[:topic_id] || current_user.ui_settings&.dig('preferred_captain_topic_id')
 
     # Find the assistant either by ID or from inbox
-    assistant = if assistant_id.present?
-                  Captain::Assistant.find_by(id: assistant_id, account_id: Current.account.id)
+    assistant = if topic_id.present?
+                  Captain::Topic.find_by(id: topic_id, account_id: Current.account.id)
                 else
                   @conversation.inbox.captain_assistant
                 end
@@ -44,6 +44,6 @@ module Enterprise::Api::V1::Accounts::ConversationsController
   private
 
   def copilot_params
-    params.permit(:previous_history, :message, :assistant_id)
+    params.permit(:previous_history, :message, :topic_id)
   end
 end

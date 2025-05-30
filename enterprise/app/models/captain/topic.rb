@@ -14,17 +14,17 @@
 #
 #  index_captain_assistants_on_account_id  (account_id)
 #
-class Captain::Assistant < ApplicationRecord
+class Captain::Topic < ApplicationRecord
   include Avatarable
 
   self.table_name = 'captain_assistants'
 
   belongs_to :account
   has_many :documents, class_name: 'Captain::Document', dependent: :destroy_async
-  has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy_async
+  has_many :responses, class_name: 'Captain::TopicResponse', dependent: :destroy_async
   has_many :captain_inboxes,
            class_name: 'CaptainInbox',
-           foreign_key: :captain_assistant_id,
+           foreign_key: :captain_topic_id,
            dependent: :destroy_async
   has_many :inboxes,
            through: :captain_inboxes

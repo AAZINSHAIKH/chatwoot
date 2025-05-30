@@ -489,9 +489,9 @@ const actions = {
     commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
   },
 
-  getInboxCaptainAssistantById: async ({ commit }, conversationId) => {
+  getInboxCaptainTopicById: async ({ commit }, conversationId) => {
     try {
-      const response = await ConversationApi.getInboxAssistant(conversationId);
+      const response = await ConversationApi.getInboxTopic(conversationId);
       commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
     } catch (error) {
       // Handle error

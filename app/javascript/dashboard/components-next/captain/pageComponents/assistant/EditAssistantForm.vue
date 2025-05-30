@@ -16,7 +16,7 @@ const props = defineProps({
     required: true,
     validator: value => ['edit', 'create'].includes(value),
   },
-  assistant: {
+  topic: {
     type: Object,
     default: () => ({}),
   },
@@ -27,7 +27,7 @@ const emit = defineEmits(['submit']);
 const { t } = useI18n();
 
 const formState = {
-  uiFlags: useMapGetter('captainAssistants/getUIFlags'),
+  uiFlags: useMapGetter('captainTopics/getUIFlags'),
 };
 
 const initialState = {
@@ -75,10 +75,10 @@ const formErrors = computed(() => ({
   instructions: getErrorMessage('instructions'),
 }));
 
-const updateStateFromAssistant = assistant => {
-  const { config = {} } = assistant;
-  state.name = assistant.name;
-  state.description = assistant.description;
+const updateStateFromTopic = topic => {
+  const { config = {} } = topic;
+  state.name = topic.name;
+  state.description = topic.description;
   state.productName = config.product_name;
   state.welcomeMessage = config.welcome_message;
   state.handoffMessage = config.handoff_message;
@@ -103,7 +103,7 @@ const handleBasicInfoUpdate = async () => {
     name: state.name,
     description: state.description,
     config: {
-      ...props.assistant.config,
+      ...props.topic.config,
       product_name: state.productName,
     },
   };
@@ -121,7 +121,7 @@ const handleSystemMessagesUpdate = async () => {
 
   const payload = {
     config: {
-      ...props.assistant.config,
+      ...props.topic.config,
       welcome_message: state.welcomeMessage,
       handoff_message: state.handoffMessage,
       resolution_message: state.resolutionMessage,
@@ -137,7 +137,7 @@ const handleInstructionsUpdate = async () => {
 
   const payload = {
     config: {
-      ...props.assistant.config,
+      ...props.topic.config,
       temperature: state.temperature || 1,
       instructions: state.instructions,
     },
@@ -149,7 +149,7 @@ const handleInstructionsUpdate = async () => {
 const handleFeaturesUpdate = () => {
   const payload = {
     config: {
-      ...props.assistant.config,
+      ...props.topic.config,
       feature_faq: state.features.conversationFaqs,
       feature_memory: state.features.memories,
     },
@@ -159,10 +159,10 @@ const handleFeaturesUpdate = () => {
 };
 
 watch(
-  () => props.assistant,
-  newAssistant => {
-    if (props.mode === 'edit' && newAssistant) {
-      updateStateFromAssistant(newAssistant);
+  () => props.topic,
+  newTopic => {
+    if (props.mode === 'edit' && newTopic) {
+      updateStateFromTopic(newTopic);
     }
   },
   { immediate: true }

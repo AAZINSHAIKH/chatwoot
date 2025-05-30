@@ -18,7 +18,7 @@ module Captain::ChatHelper
   private
 
   def handle_response(response)
-    Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
+    Rails.logger.debug { "#{self.class.name} Topic: #{@assistant.id}, Received response #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
@@ -50,9 +50,9 @@ module Captain::ChatHelper
   end
 
   def execute_tool(function_name, arguments, tool_call_id)
-    persist_message({ content: "Using tool #{function_name}", function_name: function_name }, 'assistant_thinking')
+    persist_message({ content: "Using tool #{function_name}", function_name: function_name }, 'topic_thinking')
     result = @tool_registry.send(function_name, arguments)
-    persist_message({ content: "Completed #{function_name} tool call", function_name: function_name }, 'assistant_thinking')
+    persist_message({ content: "Completed #{function_name} tool call", function_name: function_name }, 'topic_thinking')
     append_tool_response(result, tool_call_id)
   end
 
@@ -64,7 +64,7 @@ module Captain::ChatHelper
   end
 
   def process_invalid_tool_call(function_name, tool_call_id)
-    persist_message({ content: 'Invalid tool call', function_name: function_name }, 'assistant_thinking')
+    persist_message({ content: 'Invalid tool call', function_name: function_name }, 'topic_thinking')
     append_tool_response('Tool not available', tool_call_id)
   end
 
@@ -78,7 +78,7 @@ module Captain::ChatHelper
 
   def log_chat_completion_request
     Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
+      "#{self.class.name} Topic: #{@assistant.id}, Requesting chat completion
       for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools
       "
     )

@@ -15,7 +15,7 @@ const props = defineProps({
     required: true,
     validator: value => ['edit', 'create'].includes(value),
   },
-  assistant: {
+  topic: {
     type: Object,
     default: () => ({}),
   },
@@ -26,7 +26,7 @@ const emit = defineEmits(['submit', 'cancel']);
 const { t } = useI18n();
 
 const formState = {
-  uiFlags: useMapGetter('captainAssistants/getUIFlags'),
+  uiFlags: useMapGetter('captainTopics/getUIFlags'),
 };
 
 const initialState = {
@@ -63,7 +63,7 @@ const formErrors = computed(() => ({
 
 const handleCancel = () => emit('cancel');
 
-const prepareAssistantDetails = () => ({
+const prepareTopicDetails = () => ({
   name: state.name,
   description: state.description,
   config: {
@@ -79,13 +79,13 @@ const handleSubmit = async () => {
     return;
   }
 
-  emit('submit', prepareAssistantDetails());
+  emit('submit', prepareTopicDetails());
 };
 
-const updateStateFromAssistant = assistant => {
-  if (!assistant) return;
+const updateStateFromTopic = topic => {
+  if (!topic) return;
 
-  const { name, description, config } = assistant;
+  const { name, description, config } = topic;
 
   Object.assign(state, {
     name,
@@ -97,10 +97,10 @@ const updateStateFromAssistant = assistant => {
 };
 
 watch(
-  () => props.assistant,
-  newAssistant => {
-    if (props.mode === 'edit' && newAssistant) {
-      updateStateFromAssistant(newAssistant);
+  () => props.topic,
+  newTopic => {
+    if (props.mode === 'edit' && newTopic) {
+      updateStateFromTopic(newTopic);
     }
   },
   { immediate: true }

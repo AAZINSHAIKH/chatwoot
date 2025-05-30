@@ -20,7 +20,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
     context 'when the page is successfully crawled' do
       it 'creates a new document if one does not exist' do
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: assistant.id, page_link: page_link)
         end.to change(assistant.documents, :count).by(1)
 
         document = assistant.documents.last
@@ -38,7 +38,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
                                    content: 'Old content')
 
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: assistant.id, page_link: page_link)
         end.not_to change(assistant.documents, :count)
 
         existing_document.reload
@@ -57,7 +57,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
         end
 
         it 'truncates the title and content' do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: assistant.id, page_link: page_link)
 
           document = assistant.documents.last
           expect(document.name.length).to eq(255)
@@ -73,7 +73,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
 
       it 'raises an error with the page link' do
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: assistant.id, page_link: page_link)
         end.to raise_error("Failed to parse data: #{page_link} Failed to fetch")
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
       end
 
       it 'creates document with empty strings and updates the status to available' do
-        described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+        described_class.perform_now(topic_id: assistant.id, page_link: page_link)
 
         document = assistant.documents.last
         expect(document.name).to eq('')
