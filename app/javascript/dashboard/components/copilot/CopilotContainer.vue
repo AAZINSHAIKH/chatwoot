@@ -19,16 +19,16 @@ const props = defineProps({
 
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
-const assistants = useMapGetter('captainAssistants/getRecords');
+const assistants = useMapGetter('ai_agentAssistants/getRecords');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const { uiSettings, updateUISettings } = useUISettings();
 
 const messages = ref([]);
-const isCaptainTyping = ref(false);
+const isAiAgentTyping = ref(false);
 const selectedAssistantId = ref(null);
 
 const activeAssistant = computed(() => {
-  const preferredId = uiSettings.value.preferred_captain_assistant_id;
+  const preferredId = uiSettings.value.preferred_ai_agent_assistant_id;
 
   // If the user has selected a specific assistant, it takes first preference for Copilot.
   if (preferredId) {
@@ -51,7 +51,7 @@ const activeAssistant = computed(() => {
 const setAssistant = async assistant => {
   selectedAssistantId.value = assistant.id;
   await updateUISettings({
-    preferred_captain_assistant_id: assistant.id,
+    preferred_ai_agent_assistant_id: assistant.id,
   });
 };
 
@@ -66,7 +66,7 @@ const sendMessage = async message => {
     role: 'user',
     content: message,
   });
-  isCaptainTyping.value = true;
+  isAiAgentTyping.value = true;
 
   try {
     const { data } = await ConversationAPI.requestCopilot(
@@ -91,17 +91,17 @@ const sendMessage = async message => {
     // eslint-disable-next-line
     console.log(error);
   } finally {
-    isCaptainTyping.value = false;
+    isAiAgentTyping.value = false;
   }
 };
 
 onMounted(() => {
-  store.dispatch('captainAssistants/get');
+  store.dispatch('ai_agentAssistants/get');
 });
 
 watchEffect(() => {
   if (props.conversationId) {
-    store.dispatch('getInboxCaptainAssistantById', props.conversationId);
+    store.dispatch('getInboxAiAgentAssistantById', props.conversationId);
     selectedAssistantId.value = activeAssistant.value?.id;
   }
 });
@@ -111,7 +111,7 @@ watchEffect(() => {
   <Copilot
     :messages="messages"
     :support-agent="currentUser"
-    :is-captain-typing="isCaptainTyping"
+    :is-ai_agent-typing="isAiAgentTyping"
     :conversation-inbox-type="conversationInboxType"
     :assistants="assistants"
     :active-assistant="activeAssistant"

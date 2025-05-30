@@ -46,11 +46,11 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
-import captainAssistants from './captain/assistant';
-import captainDocuments from './captain/document';
-import captainResponses from './captain/response';
-import captainInboxes from './captain/inboxes';
-import captainBulkActions from './captain/bulkActions';
+import ai_agentAssistants from './ai_agent/assistant';
+import ai_agentDocuments from './ai_agent/document';
+import ai_agentResponses from './ai_agent/response';
+import ai_agentInboxes from './ai_agent/inboxes';
+import ai_agentBulkActions from './ai_agent/bulkActions';
 const plugins = [];
 
 export default createStore({
@@ -101,11 +101,11 @@ export default createStore({
     teams,
     userNotificationSettings,
     webhooks,
-    captainAssistants,
-    captainDocuments,
-    captainResponses,
-    captainInboxes,
-    captainBulkActions,
+    ai_agentAssistants,
+    ai_agentDocuments,
+    ai_agentResponses,
+    ai_agentInboxes,
+    ai_agentBulkActions,
   },
   plugins,
 });

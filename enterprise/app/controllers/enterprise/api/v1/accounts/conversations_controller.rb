@@ -6,18 +6,18 @@ module Enterprise::Api::V1::Accounts::ConversationsController
 
   def copilot
     # First try to get the user's preferred assistant from UI settings or from the request
-    assistant_id = copilot_params[:assistant_id] || current_user.ui_settings&.dig('preferred_captain_assistant_id')
+    assistant_id = copilot_params[:assistant_id] || current_user.ui_settings&.dig('preferred_ai_agent_assistant_id')
 
     # Find the assistant either by ID or from inbox
     assistant = if assistant_id.present?
-                  Captain::Assistant.find_by(id: assistant_id, account_id: Current.account.id)
+                  AiAgent::Assistant.find_by(id: assistant_id, account_id: Current.account.id)
                 else
-                  @conversation.inbox.captain_assistant
+                  @conversation.inbox.ai_agent_assistant
                 end
 
-    return render json: { message: I18n.t('captain.copilot_error') } unless assistant
+    return render json: { message: I18n.t('ai_agent.copilot_error') } unless assistant
 
-    response = Captain::Copilot::ChatService.new(
+    response = AiAgent::Copilot::ChatService.new(
       assistant,
       previous_history: copilot_params[:previous_history],
       conversation_id: @conversation.display_id,
@@ -28,7 +28,7 @@ module Enterprise::Api::V1::Accounts::ConversationsController
   end
 
   def inbox_assistant
-    assistant = @conversation.inbox.captain_assistant
+    assistant = @conversation.inbox.ai_agent_assistant
 
     if assistant
       render json: { assistant: { id: assistant.id, name: assistant.name } }
