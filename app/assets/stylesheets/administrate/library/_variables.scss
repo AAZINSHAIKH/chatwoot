@@ -15,10 +15,11 @@ $base-spacing: $base-line-height * 1em !default;
 $small-spacing: $base-spacing / 2 !default;
 
 // Colors
+$teal:  #10b981 !default;
 $white: #fff !default;
 $black: #000 !default;
 
-$blue: #1f93ff !default;
+$blue: #008080;
 $red: #ff382d !default;
 $light-yellow: #ffc532 !default;
 $light-green: #44ce4b !default;
@@ -33,7 +34,7 @@ $hint-grey: #7b808c !default;
 
 // Font Colors
 $base-font-color: $grey-7 !default;
-$action-color: $blue !default;
+$action-color: $teal !default;
 
 // Background Colors
 $base-background-color: $grey-0 !default;

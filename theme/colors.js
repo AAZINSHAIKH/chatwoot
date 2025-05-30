@@ -1,6 +1,6 @@
 const {
-  blue,
-  blueDark,
+  teal,
+  tealDark,
   green,
   greenDark,
   yellow,
@@ -15,18 +15,18 @@ const {
 
 export const colors = {
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: teal.teal2,
+    50: teal.teal3,
+    75: teal.teal4,
+    100: teal.teal5,
+    200: teal.teal7,
+    300: teal.teal8,
+    400: tealDark.teal11,
+    500: tealDark.teal10,
+    600: tealDark.teal9,
+    700: tealDark.teal8,
+    800: tealDark.teal6,
+    900: tealDark.teal2,
   },
   green: {
     50: greenDark.green12,
@@ -391,7 +391,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#008080',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
@@ -401,6 +401,7 @@ export const colors = {
       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
       blue: 'rgb(var(--solid-blue) / <alpha-value>)',
       iris: 'rgb(var(--solid-iris) / <alpha-value>)',
+      teal: 'rgb(var(--solid-teal) / <alpha-value>)',
     },
     alpha: {
       1: 'rgba(var(--alpha-1))',
@@ -414,6 +415,6 @@ export const colors = {
     container: 'rgba(var(--border-container))',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
     'blue-border': 'rgba(var(--border-blue))',
-    'blue-text': 'rgba(var(--text-blue))',
+    'blue-text': 'rgba(var(--text-teal))',
   },
 };

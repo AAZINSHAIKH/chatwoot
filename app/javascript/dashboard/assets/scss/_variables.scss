@@ -41,7 +41,7 @@ $header-height: 3.5rem;
 $woot-logo-padding: $space-large $space-two;
 
 // Colors
-$color-woot: #1f93ff;
+$color-woot: #008080;
 $color-gray: #6e6f73;
 $color-light-gray: #999a9b;
 
@@ -94,4 +94,9 @@ $transition-ease-in: all 0.250s ease-in;
 
 :root {
   --dashboard-app-tabs-height: 2.4375rem;
+  --text-teal:               0 128 128;   /* for text: rgba(var(--text-teal)) */
+  --w-teal-500:               0 166  81;   /* for bg: rgb(var(--w-teal-500)) */
+  --color-primary-teal-600:   0 166  81;   /* for solid fills: rgb(var(--color-primary-teal-600)) */
+  --color-primary-teal-600-hover: 0 140  68; /* optional hover shade */
+  --color-primary-teal-100:  184 234 224;  /* optional light borders/background */
 }
